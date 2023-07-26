@@ -1,11 +1,12 @@
 export class ViewManager {
-    constructor() {
+    constructor(deleteHandler) {
         this.todoListElement = document.getElementById('todo-list');
+        this.deleteHandler = deleteHandler;
     }
 
     renderTodos(todos) {
         this.todoListElement.innerHTML = '';
-        todos.foreach((todo, index) => {
+        todos.forEach((todo, index) => {
             const todoElement = document.createElement('div');
             const titleElement = document.createElement('h2');
             titleElement.textContent = todo.title;
@@ -15,8 +16,9 @@ export class ViewManager {
 
             const deleteButton = document.createElement('button');
             deleteButton.textContent = "Delete";
+            deleteButton.setAttribute('data-index', index);
             deleteButton.addEventListener('click', () =>{
-                this.deleteHandler(index);
+                this.deleteHandler(parseInt(deleteButton.getAttribute('data-index')));
             });
 
             todoElement.appendChild(titleElement);
